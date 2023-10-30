@@ -27,6 +27,9 @@ class Cat(models.Model):
         User, related_name='cats', on_delete=models.CASCADE)
     achievements = models.ManyToManyField(Achievement, through='AchievementCat')
 
+    class Meta:
+        unique_together = ('name', 'owner')
+
     def __str__(self):
         return self.name
 
