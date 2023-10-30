@@ -28,7 +28,12 @@ class Cat(models.Model):
     achievements = models.ManyToManyField(Achievement, through='AchievementCat')
 
     class Meta:
-        unique_together = ('name', 'owner')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'owner'],
+                name='unique_name_owner'
+            )
+        ]
 
     def __str__(self):
         return self.name

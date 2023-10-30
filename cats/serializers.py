@@ -1,5 +1,5 @@
 from rest_framework import serializers
-#  from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueTogetherValidator
 
 import datetime as dt
 
@@ -33,6 +33,13 @@ class CatSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'color', 'birth_year', 'achievements', 'owner',
                   'age')
         read_only_fields = ('owner',)
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Cat.objects.all(),
+                fields=('name', 'owner')
+            )
+        ]
 
     def validate(self, data):
         if data['color'] == data['name']:
